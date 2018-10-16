@@ -16,15 +16,15 @@ display_height = 600
 
 gd = pg.display.set_mode((display_width, display_height))  # screen size, is a Surface
 screen_rect = gd.get_rect()
-pg.display.set_caption("Slither")  # set window title
+pg.display.set_caption("Snake Game")  # set window title
 
 # pygame.display.flip() # updates the ENTIRE screen every frame
 # pygame.display.update()  # updates parts of screen that changed, if parameters input
 
 
-img = pg.image.load(os.path.join('data', 'snake_head.png'))
-apl_img = pg.image.load(os.path.join('data', 'apple.png'))
-icon = pg.transform.scale(pg.image.load(os.path.join('data', 'apple.png')), (32, 32))
+img = pg.image.load('./snake_head.png')
+apl_img = pg.image.load('./apple.png')
+icon = pg.transform.scale(pg.image.load('./apple.png'), (32, 32))
 
 pg.display.set_icon(icon)
 
