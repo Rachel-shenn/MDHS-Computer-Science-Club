@@ -13,6 +13,9 @@ bg_colour = (155, 155, 155)
 
 display_width = 800
 display_height = 600
+vel_size = 20
+clock = pg.time.Clock()  # object for fps
+FPS = 20
 
 gd = pg.display.set_mode((display_width, display_height))  # screen size, is a Surface
 screen_rect = gd.get_rect()
@@ -22,15 +25,12 @@ pg.display.set_caption("Snake Game")  # set window title
 # pygame.display.update()  # updates parts of screen that changed, if parameters input
 
 
-img = pg.image.load('./snake_head.png')
-apl_img = pg.image.load('./apple.png')
+img = pg.transform.scale(pg.image.load('./snake_head.png'), (vel_size, vel_size))
+apl_img = pg.transform.scale(pg.image.load('./apple.png'), (vel_size, vel_size))
 icon = pg.transform.scale(pg.image.load('./apple.png'), (32, 32))
 
 pg.display.set_icon(icon)
 
-vel_size = 20
-clock = pg.time.Clock()  # object for fps
-FPS = 20
 
 small_font = pg.font.SysFont("comicsansms", 25)  # returns font object
 med_font = pg.font.SysFont("comicsansms", 50)  # returns font object
@@ -109,58 +109,8 @@ def msg_to_screen(msg, colour, y_displace=0, size="small"):
     # sceen_text = font.render(msg, True, colour)  # puts text on the hidden screen, waiting for .update() so the text
     # gameDisplay.blit(sceen_text, [display_width // 2, display_height // 2])  # can be shown
     text_surface, text_rect = text_objects(msg, colour, size)
-    text_rect.center = (display_width//2), ((display_height//2) + y_displace)  # how to center text properly
+    text_rect.center = (display_width // 2), ((display_height // 2) + y_displace)  # how to center text properly
     gd.blit(text_surface, text_rect)
-
-
-def transform_colours(r, g, b, dir):
-    # if r >= 253 and g <= 3 and b <= 3:  # red full, green grow
-    #     g += 2
-    # elif r >= 3 and g >= 253 and b <= 253:  # green full, red die, blue grow
-    #     r -= 2
-    #     b += 2
-    # elif r <= 3 and g >= 3 and b >= 253:  # blue full, green die
-    #     g -= 2
-    # elif r <= 253 and g <= 3 and 60 <= b <= 117:
-    #     b += random.randint(-2, 2)
-    # else:
-    #     r -= 2
-    #     g += 2
-    #     b += 2
-    # if 240 <= r <= 255:
-    #     r -= 2
-    # if 25 <= r <= 50:
-    #     r += random.randint(-1, 5)
-    # if 5 <= b <= 25:
-    #     b += 6
-    # if 216 <= b <= 236:
-    #     b -= 2
-    # if 2 <= g <= 15:
-    #     g += 1
-    # if 159 <= g <= 216:
-    #     g += random.randint(-5, 2)
-    if dir == 'left':
-        r -= random.randint(-2, 3)
-        g -= random.randint(-3, 2)
-        b -= random.randint(-2, 5)
-    elif dir == 'right':
-        r += random.randint(-3, 1)
-        g += random.randint(-1, 3)
-        b += random.randint(-5, 3)
-    elif dir == 'up':
-        r -= random.randint(-6, 3)
-        g += random.randint(-2, 5)
-        b += random.randint(-1, 2)
-    elif dir == 'down':
-        r += random.randint(-1, 4)
-        g -= random.randint(-4, 4)
-        b -= random.randint(-1, 1)
-
-    r %= 255
-    g %= 255
-    b %= 255
-    return r, g, b
-
 
 def play_snake():
     dead = False
@@ -170,11 +120,7 @@ def play_snake():
     lead_x_v = 0
     lead_y_v = 0
     direction = 'right'
-
-    s_r = 155
-    s_g = 155
-    s_b = 155
-
+    
     snake_list = []   # initialize snake body
     snake_len = 1
     apple_img = pg.transform.scale(apl_img, (vel_size, vel_size))  # resize apple appropriately
@@ -229,8 +175,7 @@ def play_snake():
         if head_rect.collidelist(snake_list[:-1]) != -1:
             dead = True
 
-        s_r, s_g, s_b = transform_colours(s_r, s_g, s_b, direction)
-        snake(snake_list, direction, head_rect, (s_r, s_g, s_b))
+        snake(snake_list, direction, head_rect, green)
         score_display(len(snake_list) - 1)
         pg.display.update()  # update having been drawn things
 
@@ -240,7 +185,7 @@ def play_snake():
             while apple_rect.collidelist(snake_list) != -1:  # ensure the apple doesn't spawn inside the snake
                 apple_rect.x = random.randrange(0, (display_width - vel_size), vel_size)
                 apple_rect.y = random.randrange(0, (display_height - vel_size), vel_size)
-            snake_len += 20
+            snake_len += 10
 
         clock.tick(FPS)  # set fps
     lose_screen(len(snake_list) - 1)
@@ -268,6 +213,7 @@ def lose_screen(final_score):
                     quit()
                 elif event.key == pg.K_c:
                     play_snake()
+
 
 game_intro()
 play_snake()
