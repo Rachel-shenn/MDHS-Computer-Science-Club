@@ -7,6 +7,7 @@ Installing stuff on school computers can be a pain, and a good IDE is important 
 4. Type `powershell` and press enter in cmd
 5. When it is done loading, copy/paste the following line into it `Start-BitsTransfer -Source "https://download.sublimetext.com/Sublime%20Text%20Build%203176%20x64.zip" -Destination "C:/SublimeText/Setup.zip"` and press enter
 6. Opening up the C Drive again, in the `SublimeText` folder there should be a new folder called `Setup`. Open it up, and doubleclick on the `sublime_text.exe` application, and select `Extract all`, and then `Extract`
+7. The Sublime Text application should now be available in `C:/SublimeText/Setup/sublime_text.exe` (note that there will likely be 2 folders called `Setup` at this point, you want the normal `Setup` folder, not the zipped version)
 
 
-Congratulations, you have now installed Sublime. Now we just have to configure your Python environment!
+Congratulations, you have now installed Sublime. Now we just have to configure your Python environment! Please note that this process is on a per computer basis, so if you go to a different computer in the school, you may have to repeat this process to install Sublime.
